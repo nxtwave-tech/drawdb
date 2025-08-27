@@ -11,8 +11,13 @@ The `Editor` component is exposed as a federated module at `./Editor` and can be
 ### Host Application (This App)
 
 - **Module Name**: `drawdb`
-- **Remote Entry**: `remoteEntry.js`
+- **Remote Entry**: `remoteEntry.{VERSION}.{BUILD_NUMBER}.js` (dynamically generated)
 - **Exposed Component**: `./Editor` → `./src/remoteEntry.jsx`
+
+The remote entry filename is dynamically generated using environment variables:
+
+- `VITE_APP_VERSION`: Application version (default: 0.0.1)
+- `CODEBUILD_BUILD_NUMBER`: Build number for CI/CD (default: 0)
 
 ### Consumer Application Setup
 
@@ -37,7 +42,7 @@ export default defineConfig({
     federation({
       name: "consumer-app",
       remotes: {
-        drawdb: "http://localhost:4173/assets/remoteEntry.js", // Update URL as needed
+        drawdb: `http://localhost:4173/assets/remoteEntry.${process.env.VITE_APP_VERSION || "0.0.1"}.${process.env.CODEBUILD_BUILD_NUMBER || "0"}.js`,
       },
       shared: {
         react: {
@@ -237,6 +242,45 @@ const handleExportSQL = () => {
 }
 ```
 
+## Environment Variables
+
+The module federation setup uses the following environment variables for dynamic filename generation:
+
+### Host Application Environment Variables
+
+Create a `.env` file in the root directory with:
+
+```bash
+# Application version for remote entry filename
+VITE_APP_VERSION=1.0.0
+
+# Build number (typically set by CI/CD)
+CODEBUILD_BUILD_NUMBER=1
+```
+
+### Consumer Application Environment Variables
+
+In your consumer application, create a `.env` file with:
+
+```bash
+# Host application details
+VITE_DRAWDB_HOST=http://localhost:4173
+VITE_APP_VERSION=1.0.0
+CODEBUILD_BUILD_NUMBER=1
+
+# For production
+# VITE_DRAWDB_HOST=https://your-production-host.com
+# MODE=production
+```
+
+Then update your consumer's remote configuration:
+
+```javascript
+remotes: {
+  drawdb: `${process.env.VITE_DRAWDB_HOST}/assets/remoteEntry.${process.env.VITE_APP_VERSION || "0.0.1"}.${process.env.CODEBUILD_BUILD_NUMBER || "0"}.js`,
+},
+```
+
 ## Development
 
 ### Host Application Commands
@@ -259,7 +303,7 @@ npm run preview
 
 - **Development**: `http://localhost:5173`
 - **Production Preview**: `http://localhost:4173`
-- **Remote Entry**: `http://localhost:4173/assets/remoteEntry.js` (in production preview)
+- **Remote Entry**: `http://localhost:4173/assets/remoteEntry.{version}.{build}.js` (dynamically generated in production preview)
 
 ## Important Notes
 

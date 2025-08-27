@@ -61,4 +61,15 @@ docker build -t drawdb .
 docker run -p 3000:80 drawdb
 ```
 
-If you wish to work with sharing, set up [server](https://github.com/drawdb-io/drawdb-server) and environment variables according to `.env.sample`. This is not required unless you want to share files.
+## Environment Variables
+
+DrawDB supports environment variables for configuration.
+
+Key variables include:
+
+- `VITE_APP_VERSION`: Version for module federation builds
+- `CODEBUILD_BUILD_NUMBER`: Build number for CI/CD
+
+## Module Federation
+
+DrawDB can be used as a federated module in other applications. See [MODULE_FEDERATION_README.md](./MODULE_FEDERATION_README.md) for detailed setup instructions.

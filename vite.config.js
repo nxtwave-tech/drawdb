@@ -1,38 +1,42 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    federation({
-      name: "drawdb",
-      filename: "remoteEntry.js",
-      exposes: {
-        "./Editor": "./src/remoteEntry.jsx",
-      },
-      shared: {
-        react: {
-          singleton: true,
-          requiredVersion: "^17.0.2",
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  return {
+    plugins: [
+      react(),
+      federation({
+        name: "drawdb",
+        filename: `remoteEntry.${env.VITE_APP_VERSION || "0.0.1"}.${env.CODEBUILD_BUILD_NUMBER || "0"}.js`,
+        exposes: {
+          "./Editor": "./src/remoteEntry.jsx",
         },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: "^17.0.2",
+        shared: {
+          react: {
+            singleton: true,
+            requiredVersion: "^17.0.2",
+          },
+          "react-dom": {
+            singleton: true,
+            requiredVersion: "^17.0.2",
+          },
+          "react-i18next": {
+            singleton: true,
+          },
+          i18next: {
+            singleton: true,
+          },
         },
-        "react-i18next": {
-          singleton: true,
-        },
-        i18next: {
-          singleton: true,
-        },
-      },
-    }),
-  ],
-  build: {
-    target: "esnext",
-    minify: false,
-    cssCodeSplit: false,
-  },
+      }),
+    ],
+    build: {
+      target: "esnext",
+      minify: false,
+      cssCodeSplit: false,
+    },
+  };
 });
