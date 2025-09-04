@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
       react(),
       federation({
         name: "drawdb",
-        filename: `remoteEntry.${env.VITE_APP_VERSION || "0.0.1"}.${env.CODEBUILD_BUILD_NUMBER || "0"}.js`,
+        filename: `remoteEntry.js`,
         exposes: {
           "./Editor": "./src/remoteEntry.jsx",
         },
