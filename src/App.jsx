@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import Editor from "./components/Editor/Editor";
-import data from "./data/example.json";
 
 export default function App() {
   const editorRef = useRef(null);
@@ -11,12 +10,7 @@ export default function App() {
 
   return (
     <>
-      <Editor
-        ref={editorRef}
-        data={data}
-        onSave={onSave}
-        shouldShowExport={true}
-      />
+      <Editor ref={editorRef} onSave={onSave} shouldShowExport={true} />
     </>
   );
 }

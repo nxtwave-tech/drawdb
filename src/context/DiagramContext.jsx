@@ -35,7 +35,7 @@ export default function DiagramContextProvider({ children }) {
           fields: [
             {
               name: "id",
-              type: database === "INTEGER",
+              type: "INTEGER",
               default: "",
               check: "",
               primary: true,
@@ -93,7 +93,7 @@ export default function DiagramContextProvider({ children }) {
       Toast.success(t("table_deleted"));
     }
     setRelationships((prevR) =>
-      prevR.filter((e) => !(e.startTableId === id || e.endTableId === id)),
+      prevR.filter((e) => !(e.startTableId === id || e.endTableId === id))
     );
     setTables((prev) => prev.filter((e) => e.id !== id));
     if (id === selectedElement.id) {
@@ -108,7 +108,7 @@ export default function DiagramContextProvider({ children }) {
 
   const updateTable = (id, updatedValues) => {
     setTables((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)),
+      prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t))
     );
   };
 
@@ -119,12 +119,12 @@ export default function DiagramContextProvider({ children }) {
           return {
             ...table,
             fields: table.fields.map((field) =>
-              fid === field.id ? { ...field, ...updatedValues } : field,
+              fid === field.id ? { ...field, ...updatedValues } : field
             ),
           };
         }
         return table;
-      }),
+      })
     );
   };
 
@@ -166,8 +166,8 @@ export default function DiagramContextProvider({ children }) {
           !(
             (e.startTableId === tid && e.startFieldId === field.id) ||
             (e.endTableId === tid && e.endFieldId === field.id)
-          ),
-      ),
+          )
+      )
     );
     updateTable(tid, {
       fields: fields.filter((e) => e.id !== field.id),
@@ -214,13 +214,13 @@ export default function DiagramContextProvider({ children }) {
       setRedoStack([]);
     }
     setRelationships((prev) =>
-      prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })),
+      prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i }))
     );
   };
 
   const updateRelationship = (id, updatedValues) => {
     setRelationships((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)),
+      prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t))
     );
   };
 
