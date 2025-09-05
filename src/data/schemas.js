@@ -76,8 +76,6 @@ export const jsonSchema = {
           endFieldId: { type: ["integer", "string"] },
           name: { type: "string" },
           cardinality: { type: "string" },
-          updateConstraint: { type: "string" },
-          deleteConstraint: { type: "string" },
           id: { type: "integer" },
         },
         required: [
@@ -87,8 +85,6 @@ export const jsonSchema = {
           "endFieldId",
           "name",
           "cardinality",
-          "updateConstraint",
-          "deleteConstraint",
           "id",
         ],
       },

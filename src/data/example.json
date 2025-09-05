@@ -7,7 +7,7 @@
         {
           "id": "MlGiX1fW6CLJQkCaoiorj",
           "name": "id",
-          "type": "INT",
+          "type": "INTEGER",
           "comment": "",
           "unique": true,
           "increment": false,
@@ -29,7 +29,7 @@
         {
           "id": "HaZsXhAKM9xMTCNodxcjq",
           "name": "id",
-          "type": "INT",
+          "type": "INTEGER",
           "comment": "",
           "unique": true,
           "increment": false,
@@ -51,7 +51,7 @@
         {
           "id": "n8TZiVO1s2ESU_ZrjxF6I",
           "name": "id",
-          "type": "INT",
+          "type": "INTEGER",
           "comment": "",
           "unique": true,
           "increment": false,
@@ -74,8 +74,6 @@
       "endTableId": "qZepC3HoGG71z0uTGm3q8",
       "endFieldId": "MlGiX1fW6CLJQkCaoiorj",
       "cardinality": "one_to_one",
-      "updateConstraint": "No action",
-      "deleteConstraint": "No action",
       "name": "fk_table_1_id_table_0",
       "id": 0
     },
@@ -85,8 +83,6 @@
       "endTableId": "7hTdfYEAmJl2apIjchIVZ",
       "endFieldId": "n8TZiVO1s2ESU_ZrjxF6I",
       "cardinality": "one_to_one",
-      "updateConstraint": "No action",
-      "deleteConstraint": "No action",
       "name": "fk_table_0_id_table_2",
       "id": 1
     }

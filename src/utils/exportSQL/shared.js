@@ -41,7 +41,7 @@ export function getInlineFK(table, obj) {
           obj.tables
             .find((t) => t.id === r.endTableId)
             .fields.find((f) => f.id === r.endFieldId)?.name
-        }")\n\tON UPDATE ${r.updateConstraint.toUpperCase()} ON DELETE ${r.deleteConstraint.toUpperCase()}`,
+        }")`
       );
     }
   });

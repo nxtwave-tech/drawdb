@@ -100,7 +100,7 @@ export default function Canvas({ readOnly }) {
     };
 
     const isSelected = bulkSelectedElements.some((el) =>
-      isSameElement(el, elementInBulk),
+      isSameElement(el, elementInBulk)
     );
 
     if (e.ctrlKey || e.metaKey) {
@@ -108,8 +108,8 @@ export default function Canvas({ readOnly }) {
         if (bulkSelectedElements.length > 1) {
           setBulkSelectedElements(
             bulkSelectedElements.filter(
-              (el) => !isSameElement(el, elementInBulk),
-            ),
+              (el) => !isSameElement(el, elementInBulk)
+            )
           );
           setSelectedElement({
             ...selectedElement,
@@ -182,7 +182,7 @@ export default function Canvas({ readOnly }) {
         });
 
       const { currentCoords } = bulkSelectedElements.find((el) =>
-        isSameElement(el, dragging),
+        isSameElement(el, dragging)
       );
 
       const deltaX = mainElementFinalX - currentCoords.x;
@@ -280,7 +280,7 @@ export default function Canvas({ readOnly }) {
         prev.map((el) => ({
           ...el,
           initialCoords: { ...el.currentCoords },
-        })),
+        }))
       );
     }
 
@@ -304,16 +304,16 @@ export default function Canvas({ readOnly }) {
     if (hoveredTable.fieldId === null) return;
 
     const { fields: startTableFields, name: startTableName } = tables.find(
-      (t) => t.id === linkingLine.startTableId,
+      (t) => t.id === linkingLine.startTableId
     );
     const { type: startType, name: startFieldName } = startTableFields.find(
-      (f) => f.id === linkingLine.startFieldId,
+      (f) => f.id === linkingLine.startFieldId
     );
     const { fields: endTableFields, name: endTableName } = tables.find(
-      (t) => t.id === hoveredTable.tableId,
+      (t) => t.id === hoveredTable.tableId
     );
     const { type: endType } = endTableFields.find(
-      (f) => f.id === hoveredTable.fieldId,
+      (f) => f.id === hoveredTable.fieldId
     );
 
     if (!areFieldsCompatible(database, startType, endType)) {
@@ -331,8 +331,6 @@ export default function Canvas({ readOnly }) {
       endTableId: hoveredTable.tableId,
       endFieldId: hoveredTable.fieldId,
       cardinality: Cardinality.ONE_TO_ONE,
-      updateConstraint: Constraint.NONE,
-      deleteConstraint: Constraint.NONE,
       name: `fk_${startTableName}_${startFieldName}_${endTableName}`,
       id: relationships.length,
     };
@@ -386,7 +384,7 @@ export default function Canvas({ readOnly }) {
       }
     },
     canvasRef,
-    { passive: false },
+    { passive: false }
   );
 
   return (
