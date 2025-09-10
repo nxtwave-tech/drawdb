@@ -55,10 +55,23 @@ const WorkSpace = forwardRef(function WorkSpace(
     database: database,
   });
 
+  const getUserContent = () => {
+    const userContent = {
+      tables: tables,
+      relationships: relationships,
+      database: database,
+    };
+
+    const result = JSON.stringify(userContent, null, 2);
+
+    return result;
+  };
+
   useImperativeHandle(
     ref,
     () => ({
       getSqlCode: () => sqlCode,
+      getUserContent: getUserContent,
     }),
     [sqlCode]
   );
@@ -77,6 +90,7 @@ const WorkSpace = forwardRef(function WorkSpace(
             readOnly={readOnly}
             shouldShowExport={shouldShowExport}
             onSave={onSave}
+            getUserContent={getUserContent}
           />
           <div
             className="flex h-full overflow-y-auto"
