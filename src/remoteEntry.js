@@ -28,13 +28,15 @@ const DrawDbEditor = forwardRef(function DrawDbEditor(
   ref
 ) {
   return (
-    <Editor
-      ref={ref}
-      data={data}
-      onSave={onSave}
-      readOnly={readOnly}
-      shouldShowExport={shouldShowExport}
-    />
+    <div className="drawdb-scope w-full h-full">
+      <Editor
+        ref={ref}
+        data={data}
+        onSave={onSave}
+        readOnly={readOnly}
+        shouldShowExport={shouldShowExport}
+      />
+    </div>
   );
 });
 
