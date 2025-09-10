@@ -43,17 +43,17 @@ export function CanvasContextProvider({ children, ...attrs }) {
   });
   const screenSize = useMemo(
     () => ({
-      x: canvasSize.width ?? 0,
-      y: canvasSize.height ?? 0,
+      x: canvasSize.width,
+      y: canvasSize.height,
     }),
-    [canvasSize.height, canvasSize.width],
+    [canvasSize.height, canvasSize.width]
   );
   const viewBoxSize = useMemo(
     () => ({
       x: screenSize.x / transform.zoom,
       y: screenSize.y / transform.zoom,
     }),
-    [screenSize.x, screenSize.y, transform.zoom],
+    [screenSize.x, screenSize.y, transform.zoom]
   );
   const viewBox = useMemo(
     () =>
@@ -61,9 +61,9 @@ export function CanvasContextProvider({ children, ...attrs }) {
         transform.pan.x - viewBoxSize.x / 2,
         transform.pan.y - viewBoxSize.y / 2,
         viewBoxSize.x,
-        viewBoxSize.y,
+        viewBoxSize.y
       ),
-    [transform.pan.x, transform.pan.y, viewBoxSize.x, viewBoxSize.y],
+    [transform.pan.x, transform.pan.y, viewBoxSize.x, viewBoxSize.y]
   );
 
   const toDiagramSpace = useCallback(
@@ -84,7 +84,7 @@ export function CanvasContextProvider({ children, ...attrs }) {
       viewBox.left,
       viewBox.top,
       viewBox.width,
-    ],
+    ]
   );
 
   const toScreenSpace = useCallback(
@@ -105,7 +105,7 @@ export function CanvasContextProvider({ children, ...attrs }) {
       viewBox.left,
       viewBox.top,
       viewBox.width,
-    ],
+    ]
   );
 
   const [pointerScreenCoords, setPointerScreenCoords] = useState({
@@ -114,7 +114,7 @@ export function CanvasContextProvider({ children, ...attrs }) {
   });
   const pointerDiagramCoords = useMemo(
     () => toDiagramSpace(pointerScreenCoords),
-    [pointerScreenCoords, toDiagramSpace],
+    [pointerScreenCoords, toDiagramSpace]
   );
   const [pointerStyle, setPointerStyle] = useState("default");
 
@@ -159,9 +159,9 @@ export function CanvasContextProvider({ children, ...attrs }) {
 
   return (
     <CanvasContext.Provider value={contextValue}>
-      <div {...attrs} ref={canvasWrapRef}>
+      <div {...attrs} ref={canvasWrapRef} data-canvas>
         {children}
       </div>
     </CanvasContext.Provider>
-  )
+  );
 }

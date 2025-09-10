@@ -12,19 +12,17 @@ import TabBar from "./TabBar";
 import { CanvasContextProvider } from "../context/CanvasContext";
 import { WorkspaceTab } from "../data/constants";
 import { useDiagram, useUndoRedo } from "../hooks";
-import { useTranslation } from "react-i18next";
 import { exportSQL } from "../utils/exportSQL";
 
 const WorkSpace = forwardRef(function WorkSpace(
   { data, onSave, readOnly, shouldShowExport },
-  ref,
+  ref
 ) {
   const [title, setTitle] = useState("Untitled Diagram");
   const [activeTab, setActiveTab] = useState(WorkspaceTab.PLAYGROUND);
   const { tables, relationships, setTables, setRelationships, database } =
     useDiagram();
   const { setUndoStack, setRedoStack } = useUndoRedo();
-  const { t } = useTranslation();
 
   const load = useCallback(async () => {
     setTitle(data.name);
@@ -43,13 +41,12 @@ const WorkSpace = forwardRef(function WorkSpace(
   ]);
 
   useEffect(() => {
-    document.title = "DrawDB";
     load();
   }, [load]);
 
   const tabs = [
-    { id: WorkspaceTab.PLAYGROUND, label: t("playground") },
-    { id: WorkspaceTab.CODE, label: t("sql_code") },
+    { id: WorkspaceTab.PLAYGROUND, label: "Playground" },
+    { id: WorkspaceTab.CODE, label: "SQL Code" },
   ];
 
   const sqlCode = exportSQL({
@@ -63,11 +60,14 @@ const WorkSpace = forwardRef(function WorkSpace(
     () => ({
       getSqlCode: () => sqlCode,
     }),
-    [sqlCode],
+    [sqlCode]
   );
 
   return (
-    <div className="h-full flex flex-col overflow-hidden theme">
+    <div
+      className="h-full flex flex-col overflow-hidden theme"
+      id="drawdb-workspace"
+    >
       <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {activeTab === WorkspaceTab.PLAYGROUND ? (

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Modal, Select } from "@douyinfe/semi-ui";
 import { useDiagram, useUndoRedo } from "../../../hooks";
 import { Action, ObjectType, Cardinality } from "../../../data/constants";
-import { useTranslation } from "react-i18next";
 import { areFieldsCompatible } from "../../../utils/utils";
 import CommonButton from "../../CommonButton";
 import {
@@ -17,7 +16,6 @@ export default function EditRelationshipModal({
   onCancel,
   relationshipData,
 }) {
-  const { t } = useTranslation();
   const { tables, updateRelationship, deleteRelationship, database } =
     useDiagram();
   const { setUndoStack, setRedoStack } = useUndoRedo();
@@ -57,7 +55,7 @@ export default function EditRelationshipModal({
         formData.startFieldId === formData.endFieldId
       ) {
         setCompatibilityError(
-          "Cannot create a relationship between the same field. Please select different source and target fields.",
+          "Cannot create a relationship between the same field. Please select different source and target fields."
         );
         return;
       }
@@ -67,16 +65,16 @@ export default function EditRelationshipModal({
 
       if (startTable && endTable) {
         const startField = startTable.fields.find(
-          (f) => f.id === formData.startFieldId,
+          (f) => f.id === formData.startFieldId
         );
         const endField = endTable.fields.find(
-          (f) => f.id === formData.endFieldId,
+          (f) => f.id === formData.endFieldId
         );
 
         if (startField && endField) {
           if (!areFieldsCompatible(database, startField.type, endField.type)) {
             setCompatibilityError(
-              `Cannot connect fields of type "${startField.type}" and "${endField.type}". These field types are not compatible.`,
+              `Cannot connect fields of type "${startField.type}" and "${endField.type}". These field types are not compatible.`
             );
           } else {
             setCompatibilityError("");
@@ -114,10 +112,7 @@ export default function EditRelationshipModal({
           endFieldId: relationshipData.endFieldId,
         },
         redo: formData,
-        message: t("edit_relationship", {
-          refName: relationshipData.name,
-          extra: "[edit]",
-        }),
+        message: "Edit relationship " + relationshipData.refName,
       },
     ]);
     setRedoStack([]);
@@ -220,7 +215,7 @@ export default function EditRelationshipModal({
               (value) =>
                 setFormData((prev) => ({ ...prev, cardinality: value })),
               getCardinalityOptions(),
-              false,
+              false
             )}
           </div>
 
@@ -236,7 +231,7 @@ export default function EditRelationshipModal({
                     startFieldId: getFieldOptions(value)[0].value,
                   })),
                 getTableOptions(),
-                false,
+                false
               )}
             </div>
 
@@ -247,7 +242,7 @@ export default function EditRelationshipModal({
                 (value) =>
                   setFormData((prev) => ({ ...prev, startFieldId: value })),
                 getFieldOptions(formData.startTableId),
-                !formData.startTableId,
+                !formData.startTableId
               )}
             </div>
           </div>
@@ -268,7 +263,7 @@ export default function EditRelationshipModal({
                     endFieldId: "",
                   })),
                 getTableOptions(),
-                false,
+                false
               )}
             </div>
 
@@ -279,7 +274,7 @@ export default function EditRelationshipModal({
                 (value) =>
                   setFormData((prev) => ({ ...prev, endFieldId: value })),
                 getFieldOptions(formData.endTableId),
-                !formData.endTableId,
+                !formData.endTableId
               )}
             </div>
           </div>

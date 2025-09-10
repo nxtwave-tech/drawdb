@@ -1,22 +1,19 @@
 import { useState } from "react";
 import { Tab } from "../../data/constants";
-import { useTranslation } from "react-i18next";
 import RelationshipsTab from "./RelationshipsTab/RelationshipsTab";
 import TablesTab from "./TablesTab/TablesTab";
 import TabBar from "../TabBar";
 
 export default function SidePanel({ tableData, readOnly }) {
-  const { t } = useTranslation();
-
   const [activeTab, setActiveTab] = useState(Tab.TABLES);
 
   const tabs = [
     {
-      label: t("tables"),
+      label: "Tables",
       id: Tab.TABLES,
     },
     {
-      label: t("relationships"),
+      label: "Relationships",
       id: Tab.RELATIONSHIPS,
     },
   ];

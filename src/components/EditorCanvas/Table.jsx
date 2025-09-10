@@ -12,7 +12,6 @@ import {
 
 import { SideSheet } from "@douyinfe/semi-ui";
 import { useDiagram, useSelect } from "../../hooks";
-import { useTranslation } from "react-i18next";
 import { dbToTypes } from "../../data/datatypes";
 import { getTableHeight } from "../../utils/utils";
 import SidePanel from "../EditorSidePanel/SidePanel";
@@ -35,7 +34,6 @@ export default function Table({
 }) {
   const { database } = useDiagram();
   const { deleteTable } = useDiagram();
-  const { t } = useTranslation();
   const { selectedElement, setSelectedElement, bulkSelectedElements } =
     useSelect();
 
@@ -46,7 +44,7 @@ export default function Table({
       (selectedElement.id == tableData.id &&
         selectedElement.element === ObjectType.TABLE) ||
       bulkSelectedElements.some(
-        (e) => e.type === ObjectType.TABLE && e.id === tableData.id,
+        (e) => e.type === ObjectType.TABLE && e.id === tableData.id
       )
     );
   }, [selectedElement, tableData, bulkSelectedElements]);
@@ -71,7 +69,7 @@ export default function Table({
     e,
     fieldData,
     index,
-    isRightSide = false,
+    isRightSide = false
   ) => {
     if (!e.isPrimary) return;
 
@@ -171,17 +169,18 @@ export default function Table({
       </foreignObject>
 
       {tableData.fields.map((fieldData, index) =>
-        renderConnectionDots(fieldData, index),
+        renderConnectionDots(fieldData, index)
       )}
       <SideSheet
-        title={readOnly ? t("details") : t("edit")}
-        size="small"
+        title={readOnly ? "Details" : "Edit"}
+        width={310}
         placement="left"
         visible={
           selectedElement.element === ObjectType.TABLE &&
           selectedElement.id === tableData.id &&
           selectedElement.open
         }
+        getPopupContainer={() => document.getElementById("drawdb-workspace")}
         onCancel={() =>
           setSelectedElement((prev) => ({
             ...prev,

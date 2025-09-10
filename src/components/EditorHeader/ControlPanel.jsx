@@ -12,7 +12,6 @@ import {
 } from "../../hooks";
 import ExportModal from "./Modal/ExportModal";
 import AddTableModal from "./Modal/AddTableModal";
-import { useTranslation } from "react-i18next";
 import { nanoid } from "nanoid";
 import CommonButton from "../CommonButton";
 import {
@@ -55,7 +54,6 @@ export default function ControlPanel({
   } = useDiagram();
   const { undoStack, redoStack, setUndoStack, setRedoStack } = useUndoRedo();
   const { transform, setTransform } = useTransform();
-  const { t } = useTranslation();
 
   const undo = () => {
     if (undoStack.length === 0) return;
@@ -127,7 +125,7 @@ export default function ControlPanel({
                     ...index,
                     ...a.undo,
                   }
-                : index,
+                : index
             ),
           });
         } else if (a.component === "index_delete") {
@@ -225,7 +223,7 @@ export default function ControlPanel({
                     ...index,
                     ...a.redo,
                   }
-                : index,
+                : index
             ),
           });
         } else if (a.component === "index_delete") {
@@ -270,7 +268,7 @@ export default function ControlPanel({
         title: title,
       },
       null,
-      2,
+      2
     );
 
     onSave(result, onSuccessSave, onErrorSave);
@@ -285,7 +283,7 @@ export default function ControlPanel({
         title: title,
       },
       null,
-      2,
+      2
     );
     setExportData((prev) => ({
       ...prev,
@@ -389,7 +387,7 @@ export default function ControlPanel({
           <div className="flex flex-row items-center gap-4">
             {!readOnly && (
               <CommonButton
-                text={t("add_table")}
+                text="Add table"
                 leftIcon={<PlusIcon />}
                 onClick={handleAddTableClick}
                 variant="primary"

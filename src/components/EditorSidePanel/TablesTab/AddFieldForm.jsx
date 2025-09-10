@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Input, Select, Checkbox } from "@douyinfe/semi-ui";
 import { Action, ObjectType } from "../../../data/constants";
 import { useDiagram, useUndoRedo } from "../../../hooks";
-import { useTranslation } from "react-i18next";
 import { dbToTypes } from "../../../data/datatypes";
 import { nanoid } from "nanoid";
 import { ChevronDownIcon } from "../../../icons";
@@ -15,7 +14,6 @@ export default function AddFieldForm({
   editingField = null,
   onSave,
 }) {
-  const { t } = useTranslation();
   const { database, updateTable, updateField, tables } = useDiagram();
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
@@ -66,10 +64,7 @@ export default function AddFieldForm({
             increment: editingField.increment,
           },
           redo: fieldData,
-          message: t("edit_table", {
-            tableName: table?.name,
-            extra: "[edit field]",
-          }),
+          message: "Edit table " + table?.name,
         },
       ]);
       setRedoStack([]);
@@ -99,10 +94,7 @@ export default function AddFieldForm({
           component: "field_add",
           tid: tableId,
           fid: id,
-          message: t("edit_table", {
-            tableName: table?.name,
-            extra: "[add field]",
-          }),
+          message: "Edit table " + table?.name,
         },
       ]);
       setRedoStack([]);

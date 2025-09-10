@@ -2,13 +2,11 @@ import { createContext, useState } from "react";
 import { Action, DB, ObjectType } from "../data/constants";
 import { useTransform, useUndoRedo, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
-import { useTranslation } from "react-i18next";
 import { nanoid } from "nanoid";
 
 export const DiagramContext = createContext(null);
 
 export default function DiagramContextProvider({ children }) {
-  const { t } = useTranslation();
   const [database, setDatabase] = useState(DB.SQLITE);
   const [tables, setTables] = useState([]);
   const [relationships, setRelationships] = useState([]);
@@ -58,7 +56,7 @@ export default function DiagramContextProvider({ children }) {
           action: Action.ADD,
           element: ObjectType.TABLE,
           name: tableName,
-          message: t("add_table"),
+          message: "Add table",
         },
       ]);
       setRedoStack([]);
@@ -86,11 +84,11 @@ export default function DiagramContextProvider({ children }) {
             relationship: rels,
             index: deletedTableIndex,
           },
-          message: t("delete_table", { tableName: deletedTable.name }),
+          message: "Delete table " + deletedTable.name,
         },
       ]);
       setRedoStack([]);
-      Toast.success(t("table_deleted"));
+      Toast.success("Table deleted");
     }
     setRelationships((prevR) =>
       prevR.filter((e) => !(e.startTableId === id || e.endTableId === id))
@@ -152,10 +150,7 @@ export default function DiagramContextProvider({ children }) {
             index: fields.findIndex((f) => f.id === field.id),
             relationship: rels,
           },
-          message: t("edit_table", {
-            tableName: name,
-            extra: "[delete field]",
-          }),
+          message: "Edit table " + tableName,
         },
       ]);
       setRedoStack([]);
@@ -183,7 +178,7 @@ export default function DiagramContextProvider({ children }) {
             action: Action.ADD,
             element: ObjectType.RELATIONSHIP,
             data: data,
-            message: t("add_relationship"),
+            message: "Add relationship",
           },
         ]);
         setRedoStack([]);
@@ -206,9 +201,7 @@ export default function DiagramContextProvider({ children }) {
           action: Action.DELETE,
           element: ObjectType.RELATIONSHIP,
           data: relationships[id],
-          message: t("delete_relationship", {
-            refName: relationships[id].name,
-          }),
+          message: "Delete relationship " + relationshipData.name,
         },
       ]);
       setRedoStack([]);

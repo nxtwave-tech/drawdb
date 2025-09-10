@@ -1,5 +1,4 @@
 import { Input, Modal } from "@douyinfe/semi-ui";
-import { useTranslation } from "react-i18next";
 import CodeEditor from "../../CodeEditor";
 
 export default function ExportModal({
@@ -9,8 +8,6 @@ export default function ExportModal({
   exportData,
   setExportData,
 }) {
-  const { t, i18n } = useTranslation();
-
   const getModalOnOk = async () => {
     const blob = new Blob([exportData.data], {
       type: "application/json",
@@ -32,10 +29,10 @@ export default function ExportModal({
           language="json"
           options={{ readOnly: true }}
         />
-        <div className="text-sm font-semibold mt-2">{t("filename")}:</div>
+        <div className="text-sm font-semibold mt-2">Filename:</div>
         <Input
           value={exportData.filename}
-          placeholder={t("filename")}
+          placeholder="Filename"
           suffix={<div className="p-2">{`.${exportData.extension}`}</div>}
           onChange={(value) =>
             setExportData((prev) => ({ ...prev, filename: value }))
@@ -48,7 +45,7 @@ export default function ExportModal({
 
   return (
     <Modal
-      title={i18n.t("export")}
+      title="Export"
       visible={visible}
       onOk={getModalOnOk}
       afterClose={() => {
@@ -63,12 +60,12 @@ export default function ExportModal({
       }}
       centered
       closeOnEsc={true}
-      okText={i18n.t("export")}
+      okText="Export"
       okButtonProps={{
         disabled: !exportData.data,
       }}
       hasCancel={true}
-      cancelText={t("cancel")}
+      cancelText="Cancel"
       width={740}
       bodyStyle={{
         maxHeight: window.innerHeight - 280,
