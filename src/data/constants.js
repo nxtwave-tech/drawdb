@@ -57,3 +57,5 @@ export const State = {
 export const DB = {
   SQLITE: "sqlite",
 };
+
+export const drawDbGithubRepoUrl = "https://github.com/nxtwave-tech/drawdb";

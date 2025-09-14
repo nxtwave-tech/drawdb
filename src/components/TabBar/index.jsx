@@ -1,5 +1,3 @@
-import "./styles.css";
-
 const TabBar = ({
   tabs,
   activeTab,

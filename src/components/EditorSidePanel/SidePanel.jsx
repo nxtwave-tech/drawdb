@@ -26,7 +26,7 @@ export default function SidePanel({ tableData, readOnly }) {
             tabs={tabs}
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            className="!p-0 !border-0 mb-3"
+            className="!p-0 !border-0 !mb-3"
             wrapperClassName="border border-gray-200 p-1"
             buttonClassName="!w-[122px] !h-[40px] !rounded-lg"
             activeButtonClassName="!bg-blue-100 !text-blue-700"

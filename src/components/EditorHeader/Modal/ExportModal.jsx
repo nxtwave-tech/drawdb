@@ -48,6 +48,7 @@ export default function ExportModal({
       title="Export"
       visible={visible}
       onOk={getModalOnOk}
+      className="drawdb-scope"
       afterClose={() => {
         setExportData(() => ({
           data: "",

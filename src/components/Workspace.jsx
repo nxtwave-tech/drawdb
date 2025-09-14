@@ -10,9 +10,10 @@ import Canvas from "./EditorCanvas/Canvas";
 import CodeEditor from "./CodeEditor";
 import TabBar from "./TabBar";
 import { CanvasContextProvider } from "../context/CanvasContext";
-import { WorkspaceTab } from "../data/constants";
+import { drawDbGithubRepoUrl, WorkspaceTab } from "../data/constants";
 import { useDiagram, useUndoRedo } from "../hooks";
 import { exportSQL } from "../utils/exportSQL";
+import GithubIcon from "../icons/GithubIcon";
 
 const WorkSpace = forwardRef(function WorkSpace(
   { data, onSave, readOnly, shouldShowExport },
@@ -67,6 +68,10 @@ const WorkSpace = forwardRef(function WorkSpace(
     return result;
   };
 
+  const openGithubRepo = () => {
+    window.open(drawDbGithubRepoUrl, "_blank");
+  };
+
   useImperativeHandle(
     ref,
     () => ({
@@ -78,10 +83,18 @@ const WorkSpace = forwardRef(function WorkSpace(
 
   return (
     <div
-      className="h-full flex flex-col overflow-hidden theme"
+      className="drawdb-scope h-full flex flex-col overflow-hidden theme"
       id="drawdb-workspace"
     >
-      <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+      <div className="flex items-center justify-between p-2 border-b border-gray-200">
+        <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={openGithubRepo}
+        >
+          <GithubIcon />
+        </div>
+      </div>
 
       {activeTab === WorkspaceTab.PLAYGROUND ? (
         <div className="flex flex-col h-full">

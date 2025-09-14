@@ -156,9 +156,9 @@ export default function EditRelationshipModal({
       className="w-full"
       disabled={disabled}
       style={{
+        border: "1px solid #CBD5E1",
         height: "48px",
         borderRadius: "12px",
-        borderColor: "#CBD5E1",
       }}
       arrowIcon={<ChevronDownIcon />}
     />
@@ -177,6 +177,7 @@ export default function EditRelationshipModal({
       closable={false}
       footer={null}
       width={551}
+      className="drawdb-scope"
       bodyStyle={{
         padding: 0,
         borderRadius: "16px",

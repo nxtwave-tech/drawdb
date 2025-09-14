@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import Editor from "./components/Editor/Editor";
-import "./index.css";
+import "./compiled.css";
 /**
  * FederatedEditor - A wrapper component for the Editor that can be consumed via Module Federation
  *
@@ -28,7 +28,7 @@ const DrawDbEditor = forwardRef(function DrawDbEditor(
   ref
 ) {
   return (
-    <div className="drawdb-scope w-full h-full">
+    <div className="w-full h-full min-h-unset">
       <Editor
         ref={ref}
         data={data}

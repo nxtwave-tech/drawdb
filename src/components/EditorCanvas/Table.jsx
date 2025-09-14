@@ -175,6 +175,7 @@ export default function Table({
         title={readOnly ? "Details" : "Edit"}
         width={310}
         placement="left"
+        className="drawdb-scope"
         visible={
           selectedElement.element === ObjectType.TABLE &&
           selectedElement.id === tableData.id &&
