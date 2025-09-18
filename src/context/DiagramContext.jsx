@@ -201,7 +201,7 @@ export default function DiagramContextProvider({ children }) {
           action: Action.DELETE,
           element: ObjectType.RELATIONSHIP,
           data: relationships[id],
-          message: "Delete relationship " + relationshipData.name,
+          message: "Delete relationship " + relationships[id].name,
         },
       ]);
       setRedoStack([]);

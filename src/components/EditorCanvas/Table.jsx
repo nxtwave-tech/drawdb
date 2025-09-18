@@ -228,7 +228,7 @@ export default function Table({
       >
         <div className="flex items-center gap-2 flex-1 overflow-hidden">
           <div className="flex gap-2 overflow-hidden flex-1">
-            <span className="text-xs font-medium text-slate-900 opacity-80 overflow-hidden text-ellipsis whitespace-nowrap flex-1 min-w-0">
+            <span className="text-xs font-medium text-slate-900 opacity-80 overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
               {fieldData.name}
             </span>
             <span className="text-xs text-slate-600 opacity-80 whitespace-nowrap flex-shrink-0">
