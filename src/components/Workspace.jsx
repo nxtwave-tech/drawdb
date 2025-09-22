@@ -72,14 +72,10 @@ const WorkSpace = forwardRef(function WorkSpace(
     window.open(drawDbGithubRepoUrl, "_blank");
   };
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      getSqlCode: () => sqlCode,
-      getUserContent: getUserContent,
-    }),
-    [sqlCode]
-  );
+  useImperativeHandle(ref, () => ({
+    getSqlCode: () => sqlCode,
+    getUserContent: getUserContent,
+  }));
 
   return (
     <div
