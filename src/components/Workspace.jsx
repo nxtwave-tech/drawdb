@@ -16,7 +16,7 @@ import { exportSQL } from "../utils/exportSQL";
 import GithubIcon from "../icons/GithubIcon";
 
 const WorkSpace = forwardRef(function WorkSpace(
-  { data, onSave, readOnly, shouldShowExport },
+  { data, onSave, readOnly, shouldShowExport, shouldShowUpload },
   ref
 ) {
   const [title, setTitle] = useState("Untitled Diagram");
@@ -100,6 +100,7 @@ const WorkSpace = forwardRef(function WorkSpace(
             shouldShowExport={shouldShowExport}
             onSave={onSave}
             getUserContent={getUserContent}
+            shouldShowUpload={shouldShowUpload}
           />
           <div
             className="flex h-full overflow-y-auto"

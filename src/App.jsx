@@ -10,7 +10,12 @@ export default function App() {
 
   return (
     <>
-      <Editor ref={editorRef} onSave={onSave} shouldShowExport={true} />
+      <Editor
+        ref={editorRef}
+        onSave={onSave}
+        shouldShowExport={true}
+        shouldShowUpload={true}
+      />
     </>
   );
 }

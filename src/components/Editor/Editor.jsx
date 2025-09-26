@@ -7,8 +7,14 @@ import SaveStateContextProvider from "../../context/SaveStateContext";
 import WorkSpace from "../Workspace";
 
 const Editor = forwardRef(function Editor(
-  { data, onSave, readOnly = false, shouldShowExport = false },
-  ref,
+  {
+    data,
+    onSave,
+    readOnly = false,
+    shouldShowExport = false,
+    shouldShowUpload = false,
+  },
+  ref
 ) {
   const defaultData = {
     tables: [],
@@ -32,6 +38,7 @@ const Editor = forwardRef(function Editor(
                 onSave={onSave || defaultOnSave}
                 readOnly={readOnly}
                 shouldShowExport={shouldShowExport}
+                shouldShowUpload={shouldShowUpload}
               />
             </SaveStateContextProvider>
           </TablesContextProvider>

@@ -18,13 +18,20 @@ import "./compiled.css";
  *
  * @param {boolean} readOnly - Optional. Whether the editor is in read-only mode (default: false)
  * @param {boolean} shouldShowExport - Optional. Whether to show export functionality (default: false)
+ * @param {boolean} shouldShowUpload - Optional. Whether to show upload functionality (default: false)
  *
  * Ref Methods:
  * @method getSqlCode() - Returns the current SQL code generated from the diagram
  */
 
 const DrawDbEditor = forwardRef(function DrawDbEditor(
-  { data, onSave, readOnly = false, shouldShowExport = false },
+  {
+    data,
+    onSave,
+    readOnly = false,
+    shouldShowExport = false,
+    shouldShowUpload = false,
+  },
   ref
 ) {
   return (
@@ -35,6 +42,7 @@ const DrawDbEditor = forwardRef(function DrawDbEditor(
         onSave={onSave}
         readOnly={readOnly}
         shouldShowExport={shouldShowExport}
+        shouldShowUpload={shouldShowUpload}
       />
     </div>
   );

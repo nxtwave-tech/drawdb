@@ -11,6 +11,7 @@ import {
   useSaveState,
 } from "../../hooks";
 import ExportModal from "./Modal/ExportModal";
+import UploadModal from "./Modal/UploadModal";
 import AddTableModal from "./Modal/AddTableModal";
 import { nanoid } from "nanoid";
 import CommonButton from "../CommonButton";
@@ -21,6 +22,7 @@ import {
   PlusIcon,
   SaveIcon,
   DownloadIcon,
+  UploadIcon,
 } from "../../icons";
 
 export default function ControlPanel({
@@ -29,8 +31,10 @@ export default function ControlPanel({
   shouldShowExport,
   onSave,
   getUserContent,
+  shouldShowUpload,
 }) {
   const [shouldShowExportModal, setShouldShowExportModal] = useState(false);
+  const [shouldShowUploadModal, setShouldShowUploadModal] = useState(false);
   const [showAddTableModal, setShowAddTableModal] = useState(false);
   const [exportData, setExportData] = useState({
     data: null,
@@ -49,6 +53,8 @@ export default function ControlPanel({
     deleteTable,
     updateField,
     setRelationships,
+    setTables,
+    setDatabase,
     addRelationship,
     deleteRelationship,
     updateRelationship,
@@ -297,6 +303,25 @@ export default function ControlPanel({
     setShowAddTableModal(false);
   };
 
+  const handleUploadClick = () => {
+    setShouldShowUploadModal(true);
+  };
+
+  const handleUpload = (uploadedData) => {
+    setUndoStack([]);
+    setRedoStack([]);
+
+    if (uploadedData.tables) {
+      setTables(uploadedData.tables);
+    }
+    if (uploadedData.relationships) {
+      setRelationships(uploadedData.relationships);
+    }
+    if (uploadedData.database) {
+      setDatabase(uploadedData.database);
+    }
+  };
+
   useHotkeys("mod+z", undo, { preventDefault: true });
   useHotkeys("mod+y", redo, { preventDefault: true });
   useHotkeys("mod+up", zoomIn, { preventDefault: true });
@@ -311,6 +336,11 @@ export default function ControlPanel({
         setExportData={setExportData}
         title={title}
         setModal={setShouldShowExportModal}
+      />
+      <UploadModal
+        visible={shouldShowUploadModal}
+        setModal={setShouldShowUploadModal}
+        onUpload={handleUpload}
       />
       <AddTableModal
         visible={showAddTableModal}
@@ -391,6 +421,16 @@ export default function ControlPanel({
               <CommonButton
                 leftIcon={<DownloadIcon height={20} width={20} />}
                 onClick={handleExportClick}
+                variant="default"
+                size="medium"
+                className="min-w-6 min-h-6 !p-0"
+              />
+            )}
+
+            {shouldShowUpload && (
+              <CommonButton
+                leftIcon={<UploadIcon height={24} width={24} />}
+                onClick={handleUploadClick}
                 variant="default"
                 size="medium"
                 className="min-w-6 min-h-6 !p-0"
