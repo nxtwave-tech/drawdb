@@ -24,8 +24,6 @@ export default function AddFieldForm({
     type: editingField?.type || "",
     primary: editingField?.primary || false,
     notNull: editingField?.notNull || false,
-    unique: editingField?.unique || false,
-    increment: editingField?.increment || false,
   });
 
   const table = tables.find((t) => t.id === tableId);
@@ -36,8 +34,6 @@ export default function AddFieldForm({
       type: editingField?.type || "",
       primary: editingField?.primary || false,
       notNull: editingField?.notNull || false,
-      unique: editingField?.unique || false,
-      increment: editingField?.increment || false,
     });
   }, [editingField]);
 
@@ -60,8 +56,6 @@ export default function AddFieldForm({
             type: editingField.type,
             primary: editingField.primary,
             notNull: editingField.notNull,
-            unique: editingField.unique,
-            increment: editingField.increment,
           },
           redo: fieldData,
           message: "Edit table " + table?.name,
@@ -77,13 +71,8 @@ export default function AddFieldForm({
         id,
         name: fieldData.name,
         type: fieldData.type,
-        default: "",
-        check: "",
         primary: fieldData.primary,
-        unique: fieldData.unique,
         notNull: fieldData.notNull,
-        increment: fieldData.increment,
-        comment: "",
       };
 
       setUndoStack((prev) => [
@@ -114,8 +103,6 @@ export default function AddFieldForm({
         type: editingField?.type || "",
         primary: editingField?.primary || false,
         notNull: editingField?.notNull || false,
-        unique: editingField?.unique || false,
-        increment: editingField?.increment || false,
       });
     } else {
       setFieldData({
@@ -123,8 +110,6 @@ export default function AddFieldForm({
         type: "",
         primary: false,
         notNull: false,
-        unique: false,
-        increment: false,
       });
     }
     onCancel?.();
@@ -205,32 +190,7 @@ export default function AddFieldForm({
                 setFieldData((prev) => ({ ...prev, notNull: e.target.checked }))
               }
             />
-            <span className="text-sm text-slate-600 leading-6">Nullable</span>
-          </div>
-
-          <div className="flex items-center gap-1 min-w-[112px]">
-            <Checkbox
-              checked={fieldData.unique}
-              onChange={(e) =>
-                setFieldData((prev) => ({ ...prev, unique: e.target.checked }))
-              }
-            />
-            <span className="text-sm text-slate-600 leading-6">Unique</span>
-          </div>
-
-          <div className="flex items-center gap-1 min-w-[112px]">
-            <Checkbox
-              checked={fieldData.increment}
-              onChange={(e) =>
-                setFieldData((prev) => ({
-                  ...prev,
-                  increment: e.target.checked,
-                }))
-              }
-            />
-            <span className="text-sm text-slate-600 leading-6">
-              Auto Increment
-            </span>
+            <span className="text-sm text-slate-600 leading-6">Not null</span>
           </div>
         </div>
 

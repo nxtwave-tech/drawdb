@@ -34,13 +34,8 @@ export default function DiagramContextProvider({ children }) {
             {
               name: "id",
               type: "INTEGER",
-              default: "",
-              check: "",
               primary: true,
-              unique: true,
               notNull: true,
-              increment: true,
-              comment: "",
               id: nanoid(),
             },
           ],
@@ -150,7 +145,7 @@ export default function DiagramContextProvider({ children }) {
             index: fields.findIndex((f) => f.id === field.id),
             relationship: rels,
           },
-          message: "Edit table " + tableName,
+          message: "Edit table " + name,
         },
       ]);
       setRedoStack([]);

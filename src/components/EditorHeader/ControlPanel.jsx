@@ -200,13 +200,8 @@ export default function ControlPanel({
               {
                 name: "",
                 type: "",
-                default: "",
-                check: "",
                 primary: false,
-                unique: false,
                 notNull: false,
-                increment: false,
-                comment: "",
                 id: nanoid(),
               },
             ],
