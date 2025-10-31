@@ -130,6 +130,7 @@ export default function EditRelationshipModal({
   const getCardinalityOptions = () => [
     { label: "One-to-One (1:1)", value: Cardinality.ONE_TO_ONE },
     { label: "One-to-Many (1:N)", value: Cardinality.ONE_TO_MANY },
+    { label: "Many-to-One (N:1)", value: Cardinality.MANY_TO_ONE },
     { label: "Many-to-Many (N:M)", value: Cardinality.MANY_TO_MANY },
   ];
 
