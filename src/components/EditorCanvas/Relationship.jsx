@@ -1,7 +1,8 @@
 import { useMemo, useRef } from "react";
 import { tableWidth } from "../../data/constants";
-import { calcPath } from "../../utils/calcPath";
+import { calcPath, getBadgePosition } from "../../utils/calcPath";
 import { useDiagram } from "../../hooks";
+import { getCardinalityText } from "../../utils/relationship";
 
 export default function Relationship({ data }) {
   const { tables } = useDiagram();
@@ -14,7 +15,7 @@ export default function Relationship({ data }) {
 
     return {
       startFieldIndex: startTable.fields.findIndex(
-        (f) => f.id === data.startFieldId,
+        (f) => f.id === data.startFieldId
       ),
       endFieldIndex: endTable.fields.findIndex((f) => f.id === data.endFieldId),
       startTable: { x: startTable.x, y: startTable.y },
@@ -23,6 +24,10 @@ export default function Relationship({ data }) {
   }, [tables, data]);
 
   const pathRef = useRef();
+
+  const badgePosition = useMemo(() => {
+    return getBadgePosition(pathValues);
+  }, [pathValues]);
 
   return (
     <>
@@ -59,6 +64,34 @@ export default function Relationship({ data }) {
           cursor="pointer"
           markerEnd={`url(#arrowhead-${data.id})`}
         />
+        {badgePosition && (
+          <foreignObject
+            x={badgePosition.x - 16}
+            y={badgePosition.y - 16}
+            width="32"
+            height="32"
+            style={{ overflow: "visible" }}
+          >
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                backgroundColor: "#DBEAFE",
+                border: "1px solid #2563EB",
+                borderRadius: "999px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "12px",
+                fontWeight: 500,
+                color: "#1D4ED8",
+                pointerEvents: "none",
+              }}
+            >
+              {getCardinalityText(data.cardinality)}
+            </div>
+          </foreignObject>
+        )}
       </g>
     </>
   );

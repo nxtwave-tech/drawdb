@@ -536,6 +536,9 @@ img, .drawdb-scope video {
 .drawdb-scope .h-full {
   height: 100%;
 }
+.drawdb-scope .h-px {
+  height: 1px;
+}
 .drawdb-scope .min-h-5 {
   min-height: 1.25rem;
 }
@@ -629,6 +632,9 @@ img, .drawdb-scope video {
 }
 .drawdb-scope .gap-4 {
   gap: 1rem;
+}
+.drawdb-scope .gap-3 {
+  gap: 0.75rem;
 }
 .drawdb-scope .space-y-0 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -780,6 +786,10 @@ img, .drawdb-scope video {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
+.drawdb-scope .bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1));
+}
 .drawdb-scope .\!p-0 {
   padding: 0px !important;
 }
@@ -841,6 +851,9 @@ img, .drawdb-scope video {
 }
 .drawdb-scope .font-semibold {
   font-weight: 600;
+}
+.drawdb-scope .font-normal {
+  font-weight: 400;
 }
 .drawdb-scope .leading-10 {
   line-height: 2.5rem;
@@ -922,6 +935,10 @@ img, .drawdb-scope video {
 }
 .drawdb-scope .drop-shadow-sm {
   --tw-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.drawdb-scope .invert {
+  --tw-invert: invert(100%);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .drawdb-scope .filter {
