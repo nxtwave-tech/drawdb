@@ -1,3 +1,5 @@
+import { tableWidth } from "../data/constants";
+
 /**
  * Generates an SVG path string to visually represent a relationship between two fields.
  *
@@ -100,4 +102,117 @@ export function calcPath(r, tableWidth = 200, zoom = 1) {
       } A ${radius} ${radius} 0 0 0 ${midX - radius} ${y2} L ${endX} ${y2}`;
     }
   }
+}
+
+export function getBadgePosition(pathValues) {
+  if (!pathValues) return null;
+
+  const pathString = calcPath(pathValues, tableWidth);
+  if (!pathString) return null;
+
+  const parsePathCoordinates = (path) => {
+    const coordinates = [];
+
+    const moveMatch = path.match(/M\s+(-?\d+\.?\d*)\s+(-?\d+\.?\d*)/);
+    if (moveMatch) {
+      coordinates.push({
+        x: parseFloat(moveMatch[1]),
+        y: parseFloat(moveMatch[2]),
+        type: "M",
+      });
+    }
+
+    const lineMatches = [
+      ...path.matchAll(/L\s+(-?\d+\.?\d*)\s+(-?\d+\.?\d*)/g),
+    ];
+    lineMatches.forEach((match) => {
+      coordinates.push({
+        x: parseFloat(match[1]),
+        y: parseFloat(match[2]),
+        type: "L",
+      });
+    });
+
+    return coordinates;
+  };
+
+  const hasArcs = pathString.includes(" A ");
+
+  if (!hasArcs) {
+    const moveMatch = pathString.match(/M\s+(-?\d+\.?\d*)\s+(-?\d+\.?\d*)/);
+    const lineMatch = pathString.match(/L\s+(-?\d+\.?\d*)\s+(-?\d+\.?\d*)/);
+    if (moveMatch && lineMatch) {
+      const x1 = parseFloat(moveMatch[1]);
+      const y1 = parseFloat(moveMatch[2]);
+      const x2 = parseFloat(lineMatch[1]);
+      const y2 = parseFloat(lineMatch[2]);
+      return {
+        x: (x1 + x2) / 2,
+        y: (y1 + y2) / 2,
+      };
+    }
+  } else {
+    const coordinates = parsePathCoordinates(pathString);
+
+    const startTableX = pathValues.startTable.x;
+    const endTableX = pathValues.endTable.x;
+    const tableMidpoint = (startTableX + endTableX + tableWidth) / 2;
+
+    const middleIndex = Math.floor(coordinates.length / 2);
+    const prevIndex = middleIndex > 0 ? middleIndex - 1 : 0;
+
+    const prevPoint = coordinates[prevIndex];
+    const middlePoint = coordinates[middleIndex];
+
+    const segmentX = (prevPoint.x + middlePoint.x) / 2;
+
+    const isOnLeftSide = segmentX < tableMidpoint;
+
+    const firstCoordX = coordinates[0].x;
+    const lastCoordX = coordinates[coordinates.length - 1].x;
+    const startTableLeftEdge = startTableX - 5;
+    const startTableRightEdge = startTableX + tableWidth - 5;
+
+    const startsFromRightEdge =
+      Math.abs(firstCoordX - startTableRightEdge) <
+      Math.abs(firstCoordX - startTableLeftEdge);
+
+    const goesRight = lastCoordX > firstCoordX;
+    const goesLeft = lastCoordX < firstCoordX;
+
+    let xPos = segmentX;
+
+    if (startsFromRightEdge && goesRight) {
+      if (isOnLeftSide) {
+        xPos = xPos + 5;
+      } else {
+        xPos = xPos - 5;
+      }
+    } else if (startsFromRightEdge && goesLeft) {
+      if (isOnLeftSide) {
+        xPos = xPos + 5;
+      } else {
+        xPos = xPos + 5;
+      }
+    } else if (!startsFromRightEdge && goesRight) {
+      if (isOnLeftSide) {
+        xPos = xPos - 5;
+      } else {
+        xPos = xPos + 5;
+      }
+    } else {
+      if (isOnLeftSide) {
+        xPos = xPos - 10;
+      } else {
+        xPos = xPos - 5;
+      }
+    }
+
+    return {
+      x: xPos,
+      y: (prevPoint.y + middlePoint.y) / 2,
+    };
+  }
+
+  return null;
 }
