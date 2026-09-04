@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Editor } from "@monaco-editor/react";
 
-export default function CodeEditor({ options, ...props }) {
+export default function CodeEditor({ ...props }) {
   const formatTimeoutRef = useRef(null);
 
   useEffect(() => {
@@ -27,12 +27,7 @@ export default function CodeEditor({ options, ...props }) {
 
   return (
     <div className="relative h-full">
-      <Editor
-        theme={"vs-dark"}
-        onMount={handleEditorMount}
-        options={options}
-        {...props}
-      />
+      <Editor theme={"vs-dark"} onMount={handleEditorMount} {...props} />
     </div>
   );
 }
