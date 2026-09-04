@@ -2,23 +2,8 @@ import { useDiagram } from "../../../hooks";
 import { useMemo } from "react";
 import EditIcon from "../../../icons/EditIcon";
 import ArrowDownIcon from "../../../icons/ArrowDownIcon";
-import { Cardinality } from "../../../data/constants";
-import { DeleteIcon } from "../../../icons";
-
-const getCardinalityText = (cardinality) => {
-  switch (cardinality) {
-    case Cardinality.ONE_TO_ONE:
-      return "1:1";
-    case Cardinality.ONE_TO_MANY:
-      return "1:N";
-    case Cardinality.MANY_TO_ONE:
-      return "N:1";
-    case Cardinality.MANY_TO_MANY:
-      return "N:M";
-    default:
-      return "1:1";
-  }
-};
+import { DeleteIcon, DataBaseIcon } from "../../../icons";
+import { getCardinalityText } from "../../../utils/relationship";
 
 export default function RelationshipCard({ data, onEdit, readOnly = false }) {
   const { tables, deleteRelationship } = useDiagram();
@@ -30,7 +15,7 @@ export default function RelationshipCard({ data, onEdit, readOnly = false }) {
     if (!startTable || !endTable) return null;
 
     const startField = startTable.fields.find(
-      (f) => f.id === data.startFieldId,
+      (f) => f.id === data.startFieldId
     );
     const endField = endTable.fields.find((f) => f.id === data.endFieldId);
 
@@ -51,11 +36,22 @@ export default function RelationshipCard({ data, onEdit, readOnly = false }) {
   const renderField = (field, type) => {
     return (
       <div className="flex items-center justify-between w-full gap-2">
-        <div className="text-sm font-medium text-slate-900 opacity-80 truncate flex-1 min-w-0">
+        <div className="text-sm font-medium text-slate-900 opacity-80 leading-6 truncate flex-1 min-w-0">
           {field}
         </div>
-        <div className="text-sm text-slate-600 opacity-80 flex-shrink-0">
+        <div className="text-sm text-slate-600 opacity-80 leading-6 flex-shrink-0">
           {type}
+        </div>
+      </div>
+    );
+  };
+
+  const renderTableName = (tableName) => {
+    return (
+      <div className="flex items-center gap-1 w-full">
+        <DataBaseIcon width={16} height={16} stroke="#000000" />
+        <div className="text-xs font-normal text-slate-600 leading-5 truncate flex-1 min-w-0">
+          {tableName}
         </div>
       </div>
     );
@@ -87,10 +83,16 @@ export default function RelationshipCard({ data, onEdit, readOnly = false }) {
           )}
         </div>
 
-        <div className="flex flex-col items-center gap-2">
-          {renderField(relValues.startFieldName, relValues.startFieldType)}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-full flex flex-col">
+            {renderTableName(relValues.startTableName)}
+            {renderField(relValues.startFieldName, relValues.startFieldType)}
+          </div>
           <ArrowDownIcon />
-          {renderField(relValues.endFieldName, relValues.endFieldType)}
+          <div className="w-full flex flex-col">
+            {renderTableName(relValues.endTableName)}
+            {renderField(relValues.endFieldName, relValues.endFieldType)}
+          </div>
         </div>
       </div>
     </div>

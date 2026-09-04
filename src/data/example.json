@@ -8,13 +8,8 @@
           "id": "MlGiX1fW6CLJQkCaoiorj",
           "name": "id",
           "type": "INTEGER",
-          "comment": "",
-          "unique": true,
-          "increment": false,
           "notNull": true,
-          "primary": true,
-          "default": "",
-          "check": ""
+          "primary": true
         }
       ],
       "indices": [],
@@ -30,13 +25,8 @@
           "id": "HaZsXhAKM9xMTCNodxcjq",
           "name": "id",
           "type": "INTEGER",
-          "comment": "",
-          "unique": true,
-          "increment": false,
           "notNull": true,
-          "primary": true,
-          "default": "",
-          "check": ""
+          "primary": true
         }
       ],
       "indices": [],
@@ -52,13 +42,8 @@
           "id": "n8TZiVO1s2ESU_ZrjxF6I",
           "name": "id",
           "type": "INTEGER",
-          "comment": "",
-          "unique": true,
-          "increment": false,
           "notNull": true,
-          "primary": true,
-          "default": "",
-          "check": ""
+          "primary": true
         }
       ],
       "indices": [],

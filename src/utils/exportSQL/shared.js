@@ -35,13 +35,13 @@ export function getInlineFK(table, obj) {
   obj.references.forEach((r) => {
     if (r.startTableId === table.id) {
       fks.push(
-        `\tFOREIGN KEY ("${table.fields.find((f) => f.id === r.startFieldId)?.name}") REFERENCES "${
+        `\tFOREIGN KEY (${table.fields.find((f) => f.id === r.startFieldId)?.name}) REFERENCES ${
           obj.tables.find((t) => t.id === r.endTableId)?.name
-        }"("${
+        }(${
           obj.tables
             .find((t) => t.id === r.endTableId)
             .fields.find((f) => f.id === r.endFieldId)?.name
-        }")`
+        })`
       );
     }
   });

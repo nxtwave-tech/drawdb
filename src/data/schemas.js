@@ -1,3 +1,10 @@
+import { Cardinality } from "./constants";
+import { dbToTypes } from "./datatypes";
+
+const validCardinalities = Object.values(Cardinality);
+
+const validFieldTypes = Object.keys(dbToTypes.sqlite || {});
+
 export const tableSchema = {
   type: "object",
   properties: {
@@ -12,7 +19,11 @@ export const tableSchema = {
         properties: {
           id: { type: ["integer", "string"] },
           name: { type: "string" },
-          type: { type: "string" },
+          type: {
+            type: "string",
+            enum: validFieldTypes,
+            errorMessage: `Field type must be one of: ${validFieldTypes.join(", ")}`,
+          },
           default: { type: "string" },
           check: { type: "string" },
           primary: { type: "boolean" },
@@ -26,12 +37,8 @@ export const tableSchema = {
           "id",
           "name",
           "type",
-          "default",
-          "check",
           "primary",
-          "unique",
           "notNull",
-          "increment",
         ],
       },
     },
@@ -75,7 +82,11 @@ export const jsonSchema = {
           endTableId: { type: ["integer", "string"] },
           endFieldId: { type: ["integer", "string"] },
           name: { type: "string" },
-          cardinality: { type: "string" },
+          cardinality: {
+            type: "string",
+            enum: validCardinalities,
+            errorMessage: `Cardinality must be one of: ${validCardinalities.join(", ")}`,
+          },
           id: { type: "integer" },
         },
         required: [

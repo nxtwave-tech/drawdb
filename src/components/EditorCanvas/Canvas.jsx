@@ -17,13 +17,10 @@ import {
   useUndoRedo,
   useSelect,
 } from "../../hooks";
-import { useTranslation } from "react-i18next";
 import { useEventListener } from "usehooks-ts";
 import { areFieldsCompatible } from "../../utils/utils";
 
 export default function Canvas({ readOnly }) {
-  const { t } = useTranslation();
-
   const canvasRef = useRef(null);
   const canvasContextValue = useCanvas();
   const {
@@ -266,7 +263,7 @@ export default function Canvas({ readOnly }) {
         {
           action: Action.MOVE,
           bulk: true,
-          message: t("bulk_update"),
+          message: "Bulk update",
           elements: bulkSelectedElements.map((el) => ({
             id: el.id,
             type: el.type,
@@ -317,7 +314,7 @@ export default function Canvas({ readOnly }) {
     );
 
     if (!areFieldsCompatible(database, startType, endType)) {
-      Toast.info(t("cannot_connect"));
+      Toast.info("Cannot connect, the columns have different types");
       return;
     }
     if (

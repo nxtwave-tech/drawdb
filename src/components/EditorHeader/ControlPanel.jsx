@@ -11,8 +11,8 @@ import {
   useSaveState,
 } from "../../hooks";
 import ExportModal from "./Modal/ExportModal";
+import UploadModal from "./Modal/UploadModal";
 import AddTableModal from "./Modal/AddTableModal";
-import { useTranslation } from "react-i18next";
 import { nanoid } from "nanoid";
 import CommonButton from "../CommonButton";
 import {
@@ -22,6 +22,7 @@ import {
   PlusIcon,
   SaveIcon,
   DownloadIcon,
+  UploadIcon,
 } from "../../icons";
 
 export default function ControlPanel({
@@ -29,8 +30,11 @@ export default function ControlPanel({
   readOnly,
   shouldShowExport,
   onSave,
+  getUserContent,
+  shouldShowUpload,
 }) {
   const [shouldShowExportModal, setShouldShowExportModal] = useState(false);
+  const [shouldShowUploadModal, setShouldShowUploadModal] = useState(false);
   const [showAddTableModal, setShowAddTableModal] = useState(false);
   const [exportData, setExportData] = useState({
     data: null,
@@ -49,13 +53,14 @@ export default function ControlPanel({
     deleteTable,
     updateField,
     setRelationships,
+    setTables,
+    setDatabase,
     addRelationship,
     deleteRelationship,
     updateRelationship,
   } = useDiagram();
   const { undoStack, redoStack, setUndoStack, setRedoStack } = useUndoRedo();
   const { transform, setTransform } = useTransform();
-  const { t } = useTranslation();
 
   const undo = () => {
     if (undoStack.length === 0) return;
@@ -127,7 +132,7 @@ export default function ControlPanel({
                     ...index,
                     ...a.undo,
                   }
-                : index,
+                : index
             ),
           });
         } else if (a.component === "index_delete") {
@@ -195,13 +200,8 @@ export default function ControlPanel({
               {
                 name: "",
                 type: "",
-                default: "",
-                check: "",
                 primary: false,
-                unique: false,
                 notNull: false,
-                increment: false,
-                comment: "",
                 id: nanoid(),
               },
             ],
@@ -225,7 +225,7 @@ export default function ControlPanel({
                     ...index,
                     ...a.redo,
                   }
-                : index,
+                : index
             ),
           });
         } else if (a.component === "index_delete") {
@@ -262,18 +262,7 @@ export default function ControlPanel({
 
     setSaveState(State.SAVING);
 
-    const result = JSON.stringify(
-      {
-        tables: tables,
-        relationships: relationships,
-        database: database,
-        title: title,
-      },
-      null,
-      2,
-    );
-
-    onSave(result, onSuccessSave, onErrorSave);
+    onSave(getUserContent(), onSuccessSave, onErrorSave);
   };
 
   const handleExportClick = () => {
@@ -285,7 +274,7 @@ export default function ControlPanel({
         title: title,
       },
       null,
-      2,
+      2
     );
     setExportData((prev) => ({
       ...prev,
@@ -309,6 +298,25 @@ export default function ControlPanel({
     setShowAddTableModal(false);
   };
 
+  const handleUploadClick = () => {
+    setShouldShowUploadModal(true);
+  };
+
+  const handleUpload = (uploadedData) => {
+    setUndoStack([]);
+    setRedoStack([]);
+
+    if (uploadedData.tables) {
+      setTables(uploadedData.tables);
+    }
+    if (uploadedData.relationships) {
+      setRelationships(uploadedData.relationships);
+    }
+    if (uploadedData.database) {
+      setDatabase(uploadedData.database);
+    }
+  };
+
   useHotkeys("mod+z", undo, { preventDefault: true });
   useHotkeys("mod+y", redo, { preventDefault: true });
   useHotkeys("mod+up", zoomIn, { preventDefault: true });
@@ -323,6 +331,11 @@ export default function ControlPanel({
         setExportData={setExportData}
         title={title}
         setModal={setShouldShowExportModal}
+      />
+      <UploadModal
+        visible={shouldShowUploadModal}
+        setModal={setShouldShowUploadModal}
+        onUpload={handleUpload}
       />
       <AddTableModal
         visible={showAddTableModal}
@@ -367,29 +380,31 @@ export default function ControlPanel({
             </Dropdown>
 
             <div className="w-0 h-6 border-l border-slate-500" />
-            <div className="flex flex-row items-center gap-2">
-              <CommonButton
-                leftIcon={<FlipBackwardIcon />}
-                onClick={undo}
-                variant="default"
-                size="medium"
-                className="min-w-6 min-h-6 !p-0"
-                disabled={undoStack.length === 0}
-              />
-              <CommonButton
-                leftIcon={<FlipForwardIcon />}
-                onClick={redo}
-                variant="default"
-                size="medium"
-                className="min-w-6 min-h-6 !p-0"
-                disabled={redoStack.length === 0}
-              />
-            </div>
+            {!readOnly && (
+              <div className="flex flex-row items-center gap-2">
+                <CommonButton
+                  leftIcon={<FlipBackwardIcon />}
+                  onClick={undo}
+                  variant="default"
+                  size="medium"
+                  className="min-w-6 min-h-6 !p-0"
+                  disabled={undoStack.length === 0}
+                />
+                <CommonButton
+                  leftIcon={<FlipForwardIcon />}
+                  onClick={redo}
+                  variant="default"
+                  size="medium"
+                  className="min-w-6 min-h-6 !p-0"
+                  disabled={redoStack.length === 0}
+                />
+              </div>
+            )}
           </div>
           <div className="flex flex-row items-center gap-4">
             {!readOnly && (
               <CommonButton
-                text={t("add_table")}
+                text="Add table"
                 leftIcon={<PlusIcon />}
                 onClick={handleAddTableClick}
                 variant="primary"
@@ -407,20 +422,32 @@ export default function ControlPanel({
               />
             )}
 
-            <CommonButton
-              leftIcon={
-                saveState === State.SAVING ? (
-                  <Spin size="medium" />
-                ) : (
-                  <SaveIcon />
-                )
-              }
-              onClick={save}
-              variant="default"
-              size="medium"
-              className="min-w-6 min-h-6 !p-0"
-              disabled={saveState === State.SAVING}
-            />
+            {shouldShowUpload && (
+              <CommonButton
+                leftIcon={<UploadIcon height={24} width={24} />}
+                onClick={handleUploadClick}
+                variant="default"
+                size="medium"
+                className="min-w-6 min-h-6 !p-0"
+              />
+            )}
+
+            {!readOnly && (
+              <CommonButton
+                leftIcon={
+                  saveState === State.SAVING ? (
+                    <Spin size="medium" />
+                  ) : (
+                    <SaveIcon />
+                  )
+                }
+                onClick={save}
+                variant="default"
+                size="medium"
+                className="min-w-6 min-h-6 !p-0"
+                disabled={saveState === State.SAVING}
+              />
+            )}
           </div>
         </div>
       </div>

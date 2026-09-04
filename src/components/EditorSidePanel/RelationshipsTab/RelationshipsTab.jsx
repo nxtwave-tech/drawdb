@@ -12,9 +12,9 @@ export default function RelationshipsTab({ tableId, readOnly, tableName }) {
   const filteredRelationship = useMemo(
     () =>
       relationships.filter(
-        (r) => r.startTableId === tableId || r.endTableId === tableId,
+        (r) => r.startTableId === tableId || r.endTableId === tableId
       ),
-    [tableId, relationships],
+    [tableId, relationships]
   );
 
   const handleEditRelationship = (relationship) => {

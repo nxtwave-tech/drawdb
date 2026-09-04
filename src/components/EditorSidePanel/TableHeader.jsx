@@ -2,15 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import { Input } from "@douyinfe/semi-ui";
 import { useDiagram, useUndoRedo } from "../../hooks";
 import { Action, ObjectType } from "../../data/constants";
-import { useTranslation } from "react-i18next";
 import DataBaseIcon from "../../icons/DataBaseIcon";
 import DeleteIcon from "../../icons/DeleteIcon";
 import EditIcon from "../../icons/EditIcon";
 import CheckIcon from "../../icons/CheckIcon";
 
 export default function TableHeader({ tableName, tableId, readOnly = false }) {
-  const { t } = useTranslation();
-
   const [isEditMode, setIsEditMode] = useState(false);
   const { deleteTable, updateTable } = useDiagram();
   const { setUndoStack, setRedoStack } = useUndoRedo();
@@ -60,10 +57,7 @@ export default function TableHeader({ tableName, tableId, readOnly = false }) {
         tid: tableId,
         undo: { name: originalName },
         redo: { name: localName },
-        message: t("edit_table", {
-          tableName: localName,
-          extra: "[name]",
-        }),
+        message: "Edit table " + localName,
       },
     ]);
     setRedoStack([]);
@@ -93,7 +87,7 @@ export default function TableHeader({ tableName, tableId, readOnly = false }) {
               ref={inputRef}
               value={localName}
               validateStatus={localName.trim() === "" ? "error" : "default"}
-              placeholder={t("name")}
+              placeholder="Name"
               style={{
                 backgroundColor: "transparent",
                 border: "none",

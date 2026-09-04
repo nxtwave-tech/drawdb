@@ -24,15 +24,15 @@ const sqliteTypesBase = {
     isSized: false,
     hasPrecision: true,
   },
-  NUMERIC: {
-    type: "NUMERIC",
-    checkDefault: (field) => {
-      return doubleRegex.test(field.default);
-    },
-    hasCheck: true,
-    isSized: false,
-    hasPrecision: true,
-  },
+  // NUMERIC: {
+  //   type: "NUMERIC",
+  //   checkDefault: (field) => {
+  //     return doubleRegex.test(field.default);
+  //   },
+  //   hasCheck: true,
+  //   isSized: false,
+  //   hasPrecision: true,
+  // },
   BOOLEAN: {
     type: "BOOLEAN",
     checkDefault: (field) => {
@@ -70,38 +70,18 @@ const sqliteTypesBase = {
     defaultSize: 65535,
     hasQuotes: true,
   },
-  BLOB: {
-    type: "BLOB",
-    checkDefault: () => true,
-    isSized: false,
-    hasCheck: false,
-    hasPrecision: false,
-    noDefault: true,
-  },
+  // BLOB: {
+  //   type: "BLOB",
+  //   checkDefault: () => true,
+  //   isSized: false,
+  //   hasCheck: false,
+  //   hasPrecision: false,
+  //   noDefault: true,
+  // },
   TIME: {
     type: "TIME",
     checkDefault: (field) => {
       return /^(?:[01]?\d|2[0-3]):[0-5]?\d:[0-5]?\d$/.test(field.default);
-    },
-    hasCheck: false,
-    isSized: false,
-    hasPrecision: false,
-    hasQuotes: true,
-  },
-  TIMESTAMP: {
-    type: "TIMESTAMP",
-    checkDefault: (field) => {
-      if (field.default.toUpperCase() === "CURRENT_TIMESTAMP") {
-        return true;
-      }
-      if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(field.default)) {
-        return false;
-      }
-      const content = field.default.split(" ");
-      const date = content[0].split("-");
-      return (
-        Number.parseInt(date[0]) >= 1970 && Number.parseInt(date[0]) <= 2038
-      );
     },
     hasCheck: false,
     isSized: false,

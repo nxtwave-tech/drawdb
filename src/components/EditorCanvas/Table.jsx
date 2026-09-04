@@ -12,7 +12,6 @@ import {
 
 import { SideSheet } from "@douyinfe/semi-ui";
 import { useDiagram, useSelect } from "../../hooks";
-import { useTranslation } from "react-i18next";
 import { dbToTypes } from "../../data/datatypes";
 import { getTableHeight } from "../../utils/utils";
 import SidePanel from "../EditorSidePanel/SidePanel";
@@ -35,7 +34,6 @@ export default function Table({
 }) {
   const { database } = useDiagram();
   const { deleteTable } = useDiagram();
-  const { t } = useTranslation();
   const { selectedElement, setSelectedElement, bulkSelectedElements } =
     useSelect();
 
@@ -46,7 +44,7 @@ export default function Table({
       (selectedElement.id == tableData.id &&
         selectedElement.element === ObjectType.TABLE) ||
       bulkSelectedElements.some(
-        (e) => e.type === ObjectType.TABLE && e.id === tableData.id,
+        (e) => e.type === ObjectType.TABLE && e.id === tableData.id
       )
     );
   }, [selectedElement, tableData, bulkSelectedElements]);
@@ -71,7 +69,7 @@ export default function Table({
     e,
     fieldData,
     index,
-    isRightSide = false,
+    isRightSide = false
   ) => {
     if (!e.isPrimary) return;
 
@@ -171,17 +169,19 @@ export default function Table({
       </foreignObject>
 
       {tableData.fields.map((fieldData, index) =>
-        renderConnectionDots(fieldData, index),
+        renderConnectionDots(fieldData, index)
       )}
       <SideSheet
-        title={readOnly ? t("details") : t("edit")}
-        size="small"
+        title={readOnly ? "Details" : "Edit"}
+        width={310}
         placement="left"
+        className="drawdb-scope"
         visible={
           selectedElement.element === ObjectType.TABLE &&
           selectedElement.id === tableData.id &&
           selectedElement.open
         }
+        getPopupContainer={() => document.getElementById("drawdb-workspace")}
         onCancel={() =>
           setSelectedElement((prev) => ({
             ...prev,
@@ -228,7 +228,7 @@ export default function Table({
       >
         <div className="flex items-center gap-2 flex-1 overflow-hidden">
           <div className="flex gap-2 overflow-hidden flex-1">
-            <span className="text-xs font-medium text-slate-900 opacity-80 overflow-hidden text-ellipsis whitespace-nowrap flex-1 min-w-0">
+            <span className="text-xs font-medium text-slate-900 opacity-80 overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
               {fieldData.name}
             </span>
             <span className="text-xs text-slate-600 opacity-80 whitespace-nowrap flex-shrink-0">

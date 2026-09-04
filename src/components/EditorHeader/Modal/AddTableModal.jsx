@@ -31,6 +31,7 @@ export default function AddTableModal({ visible, onCancel, onConfirm }) {
       closable={false}
       footer={null}
       width={551}
+      className="drawdb-scope"
       bodyStyle={{
         padding: 0,
         borderRadius: "16px",
@@ -71,9 +72,9 @@ export default function AddTableModal({ visible, onCancel, onConfirm }) {
             onKeyPress={handleKeyPress}
             placeholder="Enter table name"
             style={{
+              border: "1px solid #2563EB",
               height: "48px",
               borderRadius: "12px",
-              borderColor: "#2563EB",
               padding: "12px 4px",
               lineHeight: "24px",
             }}

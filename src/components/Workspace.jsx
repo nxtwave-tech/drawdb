@@ -10,21 +10,20 @@ import Canvas from "./EditorCanvas/Canvas";
 import CodeEditor from "./CodeEditor";
 import TabBar from "./TabBar";
 import { CanvasContextProvider } from "../context/CanvasContext";
-import { WorkspaceTab } from "../data/constants";
+import { drawDbGithubRepoUrl, WorkspaceTab } from "../data/constants";
 import { useDiagram, useUndoRedo } from "../hooks";
-import { useTranslation } from "react-i18next";
 import { exportSQL } from "../utils/exportSQL";
+import GithubIcon from "../icons/GithubIcon";
 
 const WorkSpace = forwardRef(function WorkSpace(
-  { data, onSave, readOnly, shouldShowExport },
-  ref,
+  { data, onSave, readOnly, shouldShowExport, shouldShowUpload },
+  ref
 ) {
   const [title, setTitle] = useState("Untitled Diagram");
   const [activeTab, setActiveTab] = useState(WorkspaceTab.PLAYGROUND);
   const { tables, relationships, setTables, setRelationships, database } =
     useDiagram();
   const { setUndoStack, setRedoStack } = useUndoRedo();
-  const { t } = useTranslation();
 
   const load = useCallback(async () => {
     setTitle(data.name);
@@ -43,13 +42,12 @@ const WorkSpace = forwardRef(function WorkSpace(
   ]);
 
   useEffect(() => {
-    document.title = "DrawDB";
     load();
   }, [load]);
 
   const tabs = [
-    { id: WorkspaceTab.PLAYGROUND, label: t("playground") },
-    { id: WorkspaceTab.CODE, label: t("sql_code") },
+    { id: WorkspaceTab.PLAYGROUND, label: "Playground" },
+    { id: WorkspaceTab.CODE, label: "SQL Code" },
   ];
 
   const sqlCode = exportSQL({
@@ -58,17 +56,41 @@ const WorkSpace = forwardRef(function WorkSpace(
     database: database,
   });
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      getSqlCode: () => sqlCode,
-    }),
-    [sqlCode],
-  );
+  const getUserContent = () => {
+    const userContent = {
+      tables: tables,
+      relationships: relationships,
+      database: database,
+    };
+
+    const result = JSON.stringify(userContent, null, 2);
+
+    return result;
+  };
+
+  const openGithubRepo = () => {
+    window.open(drawDbGithubRepoUrl, "_blank");
+  };
+
+  useImperativeHandle(ref, () => ({
+    getSqlCode: () => sqlCode,
+    getUserContent: getUserContent,
+  }));
 
   return (
-    <div className="h-full flex flex-col overflow-hidden theme">
-      <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+    <div
+      className="drawdb-scope h-full flex flex-col overflow-hidden theme"
+      id="drawdb-workspace"
+    >
+      <div className="flex items-center justify-between p-2 border-b border-gray-200">
+        <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={openGithubRepo}
+        >
+          <GithubIcon />
+        </div>
+      </div>
 
       {activeTab === WorkspaceTab.PLAYGROUND ? (
         <div className="flex flex-col h-full">
@@ -77,6 +99,8 @@ const WorkSpace = forwardRef(function WorkSpace(
             readOnly={readOnly}
             shouldShowExport={shouldShowExport}
             onSave={onSave}
+            getUserContent={getUserContent}
+            shouldShowUpload={shouldShowUpload}
           />
           <div
             className="flex h-full overflow-y-auto"

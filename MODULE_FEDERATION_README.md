@@ -237,8 +237,6 @@ const handleExportSQL = () => {
   endTableId: "table_id",
   endFieldId: "field_id",
   cardinality: "one_to_one|one_to_many|many_to_one|many_to_many",
-  updateConstraint: "No action|Cascade|Set null|Set default|Restrict",
-  deleteConstraint: "No action|Cascade|Set null|Set default|Restrict"
 }
 ```
 
