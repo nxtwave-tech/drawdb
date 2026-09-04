@@ -1,9 +1,27 @@
+import { useEffect, useRef } from "react";
 import { Editor } from "@monaco-editor/react";
 
 export default function CodeEditor({ ...props }) {
+  const formatTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearFormatTimeout();
+    };
+  }, []);
+
+  const clearFormatTimeout = () => {
+    if (formatTimeoutRef.current) {
+      clearTimeout(formatTimeoutRef.current);
+      formatTimeoutRef.current = null;
+    }
+  };
+
   const handleEditorMount = (editor) => {
-    setTimeout(() => {
-      editor.getAction("editor.action.formatDocument").run();
+    clearFormatTimeout();
+
+    formatTimeoutRef.current = setTimeout(() => {
+      editor.getAction("editor.action.formatDocument")?.run();
     }, 300);
   };
 
